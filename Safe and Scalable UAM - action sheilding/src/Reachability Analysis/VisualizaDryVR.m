@@ -1,8 +1,12 @@
 clear; close all; clc
 
-load('output.mat')
+load('reachSet.mat')
 
+<<<<<<< HEAD:Safe and Scalable UAM - action sheilding/src/Reachability Analysis/VisualizaDryVR.m
 time = 0:0.01:(3)-0.03;
+=======
+time = 0:0.01:(10)-0.05;
+>>>>>>> 4be9c0a... streamline reachset related scripts:Safe and Scalable UAM - baseline/src/Reachability Analysis/plotReachsetsPaper.m
 numTrace = model.numTraces;
 xState = Traces(:,2:end,2);
 xStateBounds = reachTube(:,:,2);
