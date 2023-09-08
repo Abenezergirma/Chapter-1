@@ -1,8 +1,8 @@
 clear; close all; clc
 
-load('output.mat')
+load('reachSet.mat')
 
-time = 0:0.01:(5)-0.05;
+time = 0:0.01:(10)-0.05;
 numTrace = model.numTraces;
 xState = Traces(:,2:end,2);
 xStateBounds = reachTube(:,:,2);
