@@ -1,0 +1,56 @@
+function [futureStates, oneStepStates, futureActions] = neighboringStates(ownship, actions, limits)
+% A function that returns next one step and few future states of the
+% aircraft
+% Input: 
+% Output: 
+% Usage: 
+% 
+if ownship.hit == true
+    actions(:,3) = 24;
+    actions = unique(actions, 'rows');
+% else
+%     actions = actions([floor(linspace(1,1000,50))],:);
+end
+
+
+
+% futureTraj = fwdProjectFast(ownship, actions, limits, 0.1, 100);
+% actions = actions([floor(linspace(1,1000,25))],:);
+
+% futureTraj = fixedWing_discrete(ownship, actions, 0.1, 300);
+
+
+if ownship.Traces == 0
+    ownship = forwardSimulate(ownship, actions);
+
+    futureTraj = ownship.Traces;
+else
+    futureTraj = ownship.Traces;
+end
+
+plot3(futureTraj(:,:,1),futureTraj(:,:,2),futureTraj(:,:,3) )
+% 
+% center_point = mean(futureTraj(end,:,3));
+% 
+% [minValue,closestIndex] = min(abs(futureTraj(end,:,3)-center_point))
+% closestValue = N(closestIndex) 
+% 
+plot(futureTraj(:,:,3))
+% hold on 
+% plot(futureTraj(:,closestIndex,4),'o')
+
+oneStepStates = futureTraj(3,:,:); %eventually put an assertion block to check the size 
+% plot(squeeze(futureStates(:,1:5,2)))
+
+% futIndex = floor(linspace(1,length(futureTraj(:,1,1)),100));
+
+futureStates = futureTraj;%(futIndex,:,:); %eventually put an assertion block to check the size 
+
+%reshaping these two arrays for next operations
+futureActions = permute(repmat(actions,1,1,100), [3 1 2]) ;
+
+oneStepStates = permute(repmat(oneStepStates,100,1,1), [1 2 3]);
+
+end
+
+
