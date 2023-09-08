@@ -1,5 +1,32 @@
 classdef DryVR < handle 
+    %This class implements a DryVR based reachability analysis tool
+    %The tool is adopted from "Fan, C., Qi, B., Mitra, S., and Viswanathan, M., 
+    % “DryVR: Data-Driven Verification and Compositional Reasoning for Automotive
+    % Systems," Computer Aided Verification, edited by R. Majumdar and V. Kunčak, 
+    % Springer International Publishing, Cham, 2017, pp. 441–461. https://doi.org/10.1007/978-3-319-63387-9_22.
 
+    % This tool is first implemented in my AIAA Aviation 2022 paper as part of
+    % my first chapter of my PhD dissertation 
+
+    % The main role of this tool in this project is to generate the
+    % reachable sets of the aircraft in the trajectory planning
+    % framework
+
+    % Important properties:
+    %      fixedWingActions - Action set of the aircrft used to generate
+    %      the traces
+    %      numTraces - number of traces that needs to be generated to get the reachset
+    %      nextStates - Projected best states of the aircraft at t+1 
+    %      EPSILON - 
+    %      trueMIN - 
+
+    % Important methods:
+    %      
+    %      FixedWing_vectorized - a vectorized model of the aircraft
+    %      GenerateTraces - simulates the future states of the aircraft 
+    %      computeDiscrepancyParameters - comptes the reach tube from the computed
+            % discrepancy parameters
+    %      
     properties (Access = public)
         L = 0.9;  % Lift acceleration
         g = 9.81; % gravity
@@ -152,8 +179,6 @@ classdef DryVR < handle
                 nextState = [repmat(timestep*i,length(actions(:,1)),1), north, east, height, chi, gamma, phi, Va];
                 futureTraj(:,i,:) = nextState;
             end
-
-
         end
 
 
