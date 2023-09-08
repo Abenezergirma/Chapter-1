@@ -6,7 +6,7 @@ teamActions = fixedWing_Actions;
 teamLimits = buildLimits;
 scenarioSelector = struct('circle','circle', 'random','random');
 % instantiating the ownship class for each aircraft in the game
-totalAgents = 2;
+totalAgents = 8;
 droneList = cell(1,totalAgents);
 initialStates = scenarioGenerator(totalAgents,'circle');
 % goals = [10000, 16000, 700];
@@ -95,10 +95,7 @@ Median = median(stepTimer)
 Std = std(stepTimer)
 Throughput = sum(stepTimer)
 
-% save('MDP_32_debug_new')
+% save('UAMgame')
 end
-% for i = 1:32
-% plot(droneList{i}.bestVal)
-% hold on
-% end
+
 
