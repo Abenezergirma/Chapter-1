@@ -1,11 +1,13 @@
-classdef DryVR
-    properties
+classdef DryVR < handle 
+
+    properties (Access = public)
         L = 0.9;  % Lift acceleration
         g = 9.81; % gravity
         Tf = 3; % Reachset time horizon
 
-        timestep = 0.1;
-        numSteps = 500;
+        timestep = 0.1; % time step for simulating the traces
+        numSteps = 500; % N for simulating the traces using euler method
+        numTraces = 20; % number of traces that needs to be generated to get the reachset
 
         DEG2RAD=0.0174533; %degree to rad coverting constant
         RAD2DEG = 57.29577951308232; %rad to degree converting constant
@@ -17,33 +19,35 @@ classdef DryVR
         vaild_actions;
         fixedWingActions;
 
-        numTraces = 20; % number of traces that needs to be generated to get the reachset
-
         % parameters for discrepancy calculation
         EPSILON = 1.0e-100;
         trueMIN = -10;
-
     end
 
     methods(Static)
         function dydt = FixedWing_vectorized(t,y,actions)
+            % This method implements a 6-DOF guidance model of fixed wing
+            % aircraft. The model is adopted from "Beard, R. W., and McLain, T. W., 
+            % Small unmanned aircraft: Theory and practice, Princeton University Press, 2012.
+            % https://doi.org/10.1515/9781400840601
 
+            % The method is implemented so that it can take a vectorized
+            % control action 
+
+            % autopilot related parameters    
             b_gamma = 0.5;
             b_Va = 0.5;
             b_phi = 0.5;
             g = 9.81;
 
-            %%% control actions %%%
-            % actions = fixedWingActions;
-
+            % extract control actions 
             n = length(actions(:,1));
-
             y = reshape(y, n, []);
-
             [gamma_c, phi_c, Va_c] = deal(actions(:,1), actions(:,2), actions(:,3));
-
+            
+            % extract the initial states
             [~,~,~, chi, gamma, phi, Va] = deal(y(:,1), y(:,2), y(:,3), y(:,4), y(:,5), y(:,6), y(:,7));
-
+            
             Vg = Va; % assuming no wind
 
             gamma_a = asin(Vg .*sin(gamma) ./Va);
@@ -65,14 +69,14 @@ classdef DryVR
             phiRate = b_phi .* (phi_c - phi);
 
             dydt = [northRate; eastRate; heightRate; chiRate; gammaRate; phiRate; VaRate];
-
         end
     
     end
 
 
-    methods
+    methods 
         function obj = DryVR(timestep,numSteps)
+            % class constructor 
             obj.timestep = timestep;
             obj.numSteps = numSteps;
         end
@@ -84,6 +88,7 @@ classdef DryVR
             gamma_c = 2*linspace(-pi/9,pi/9,10);
             phi_c = gamma_c/2; 
             Va_c = 25:5:70; 
+
             % construct the joint action space that comprises the three action spaces
             fixedWingActions = {gamma_c, phi_c, Va_c};
             actionsD = fixedWingActions;
@@ -93,7 +98,7 @@ classdef DryVR
         end
 
         function futureTraj = updated_fixedWing_discrete(obj, currentState, actions, timestep, numSteps)
-            % A function that returns a set of next states with state constraints
+            % A method that implements the same dynamics but returns a set of next states with state constraints
             % applied
 
             %Note: this function is vectorzed to accept an array of control actions
@@ -101,8 +106,7 @@ classdef DryVR
             b_Va = 0.5;
             b_phi = 0.5;
             g = 9.81;
-            % aircraftParamters;
-
+            
             [north, east, height, chi, gamma, phi, Va] = deal(currentState(:,1),currentState(:,2),...
                 currentState(:,3),currentState(:,4),currentState(:,5),currentState(:,6),currentState(:,7));
 
@@ -118,7 +122,6 @@ classdef DryVR
 
                 % updating gamma air
                 gamma_a = gamma;%asin(Vg .*sin(gamma) ./Va);
-
 
                 % updating the airspeed
                 Va_Dot = b_Va * (Va_c - Va);
@@ -171,36 +174,17 @@ classdef DryVR
             switch lower(vehicle)
 
                 case{'random_action'}
-
                     currentState = arg{2};
-
                     controlActions = obj.fixedWingActions([floor(linspace(1,1000,obj.numTraces))],:);
-
                     futureTraj = updated_fixedWing_discrete(obj, currentState, controlActions, obj.timestep, obj.numSteps);
-
-%                     centerIndex = floor(length(futureTraj(:,1,1))/2) + 1;
-% 
-%                     futureTraj([1 centerIndex],:,:) = futureTraj([centerIndex 1],:,:);
-
                     Traces = futureTraj;
-
                 case {'fixedwing_vector'}
-
                     currentState = arg{2};
-                    %                     Traces = zeros(20,501,7);
-
                     controlActions = obj.fixedWingActions;
                     vectorizedStates = currentState.*ones(length(controlActions),1);
-
-                    %                     [t, Traces] = ode45(@DryVR.FixedWing_vectorized, 0:0.01:5 ,vectorizedStates);
-
                     [t1, traces] = ode45(@(t,y) DryVR.FixedWing_vectorized(t,y,controlActions),0:0.01:10,vectorizedStates);
                     Traces = permute(reshape(traces, length(t1), length(controlActions), length(currentState)), [1, 2, 3]);
-
-
-
                 case {'fixedwing'}
-
                     %initial states
                     north = 10;
                     east = 10;
@@ -212,7 +196,6 @@ classdef DryVR
 
                     initialUpper = [north+5, east+5, height+5, chi, gamma, phi, Va];
                     initialLower = [north-5, east-5, height-5, chi, gamma, phi, Va];
-
                     initialCenter = (initialUpper + initialLower)/2;
                     %                     timeStamps = 0:0.01:obj.Tf;
                     [t, centerTrace] = ode45(@DryVR.FixedWing, 0:0.01:5 ,initialCenter);
@@ -224,18 +207,13 @@ classdef DryVR
 
                     for i = 2:obj.numTraces
                         initialNew = (initialUpper - initialLower).*rand(1,7) + initialLower; %Randomly generate initial set within the bound
-
                         [t,iTrace] = ode45(@DryVR.FixedWing, 0:0.01:5 ,initialNew);
-
                         Traces(i,:,:) = [t, iTrace];
                     end
-
 
                 otherwise
                     error('Unrecognized vehicle type %s', vehicle)
             end
-
-
         end
 
 
@@ -258,17 +236,11 @@ classdef DryVR
             arrayB = arrayA;
             [na,aDims] = size(arrayA);
             [nb,bDims] = size(arrayB);
-
             [j,i] = meshgrid(1:nb,1:na);
-
             delta = arrayA(i,:) - arrayB(j,:);
-
             cheby = zeros(na,nb);
-
             cheby(:) = max(abs(delta),[],2);
-
             chebDistance = cheby(j>i);
-
         end
 
 
@@ -284,9 +256,8 @@ classdef DryVR
             normalizingInitialRadii(find(normalizingInitialRadii==0)) = 1;
 
             normalizingInitialPoints = permute(Traces(:,1,2:end),[1 3 2]) ./normalizingInitialRadii;
+            
             % Find the max distance between initial states using Chebyshev distance
-            %             initialDistances = distmat(normalizingInitialPoints,'chebyshev');
-
             initialDistances = chebyshevDistance(obj, normalizingInitialPoints);
 
             for stateIndex = 2:numStates
@@ -418,12 +389,9 @@ classdef DryVR
                 end
                 linearSeparators = cell2mat(allStateLinearSepartors(:,:,stateIndex - 1));
 
-
-
                 if initialRadii(stateIndex - 1) ~= 0
                     df(1, stateIndex) = initialRadii(stateIndex - 1);
                 end
-
 
                 for linSep = 1:length(linearSeparators(:,1))
                     linearSeparator = linearSeparators(linSep,:);
