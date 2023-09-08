@@ -179,8 +179,6 @@ classdef DryVR < handle
                 nextState = [repmat(timestep*i,length(actions(:,1)),1), north, east, height, chi, gamma, phi, Va];
                 futureTraj(:,i,:) = nextState;
             end
-
-
         end
 
 
