@@ -1,4 +1,4 @@
-function [totalNMACs,stepTimer] = main()
+% function [totalNMACs,stepTimer] = main()
 clear; close all; clc;
 addContainingDirAndSubDir;
 parameters;
@@ -95,10 +95,6 @@ Median = median(stepTimer)
 Std = std(stepTimer)
 Throughput = sum(stepTimer)
 
-% save('MDP_16_simulate')
-end
-% for i = 1:32
-% plot(droneList{i}.bestVal)
-% hold on
+save('simulate32')
 % end
 
