@@ -33,7 +33,7 @@ classdef Ownship
         timeStep = 0.1;
         numSteps = 500;
         %         aicraftLimits;
-        c;
+        aircraftActions;
 
         % Aircraft states
         currentStates = zeros(1,8);
