@@ -33,7 +33,8 @@ ax.FontSize = 14;
 tit = title('   Reachable set of the aircraft (state x)') ;
 tit.FontName = 'Times New Roman';
 tit.FontSize = 14;
-print -depsc state_x.eps
+% print -depsc state_x.eps
+print -dpng state_x.png
 
 h = zeros(1,3);
 figure(2)
@@ -56,7 +57,8 @@ ax.FontSize = 14;
 tit = title('Reachable set of the aircraft (state y)') ;
 tit.FontName = 'Times New Roman';
 tit.FontSize = 14;
-print -depsc state_y.eps
+% print -depsc state_y.eps
+print -dpng state_y.png
 
 h = zeros(1,3);
 figure(3) 
@@ -79,7 +81,9 @@ ax.FontSize = 14;
 tit = title('Reachable set of the aircraft (state z)') ;
 tit.FontName = 'Times New Roman';
 tit.FontSize = 14; 
-print -depsc state_z.eps
+% print -depsc state_z.eps
+print -dpng state_z.png
+
 %% Plot the bounding boxes in 3D
 figure(4); hold on; box on;
 xLower = xStateBounds(:,1);
@@ -157,7 +161,9 @@ tit.FontSize = 14;
 ylabel('y, m', 'FontSize',14)
 xlabel('z, m', 'FontSize',14)
 
-print -depsc yz_proj.eps
+% print -depsc yz_proj.eps
+print -dpng yz_proj.png
+
 
 
 %% Compute the max diagonal of a cube for collision avoidance (Vectorize this) 
