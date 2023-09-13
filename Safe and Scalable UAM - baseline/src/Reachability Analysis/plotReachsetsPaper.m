@@ -145,24 +145,24 @@ Zmax = zStateBounds(patch_i,2);
 xyProject = [Xmin, Ymin, Xmax - Xmin, Ymax - Ymin];
 xzProject = [Xmin, Zmin, Xmax - Xmin, Zmax - Zmin];
 yzProject = [Ymin, Zmin, Ymax - Ymin, Zmax - Zmin];
-rectangle('Position',yzProject,'FaceColor',[0.8 0.8 0.8], 'EdgeColor', 'none')
+rectangle('Position',xzProject,'FaceColor',[0.8 0.8 0.8], 'EdgeColor', 'none')
 % rectangle('Position',[Xmin, Ymin, Xmax - Xmin, Ymax - Ymin], 'Curvature',[1,1])
 end
 for trace = 1:numTrace
-plot(yState(trace,:), zState(trace,:), 'b')
+plot(xState(trace,:), zState(trace,:), 'b')
 end
 grid on
 ax = gca;
 ax.FontSize = 14; 
-tit = title('Projection of reachtube on y-z axis') ;
+tit = title('Projection of reachtube on x-z axis') ;
 tit.FontName = 'Times New Roman';
 tit.FontSize = 14;
 
-ylabel('y, m', 'FontSize',14)
+ylabel('x, m', 'FontSize',14)
 xlabel('z, m', 'FontSize',14)
 
 % print -depsc yz_proj.eps
-print -dpng yz_proj.png
+print -dpng xz_proj.png
 
 
 
