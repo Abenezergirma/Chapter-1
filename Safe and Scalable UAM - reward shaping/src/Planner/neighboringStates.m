@@ -16,12 +16,6 @@ end
 
 
 
-% futureTraj = fwdProjectFast(ownship, actions, limits, 0.1, 100);
-% actions = actions([floor(linspace(1,1000,25))],:);
-
-% futureTraj = fixedWing_discrete(ownship, actions, 0.1, 300);
-
-
 if ownship.Traces == 0
     ownship = forwardSimulate(ownship, actions, 0.1, 300);
 
@@ -30,16 +24,6 @@ else
     futureTraj = ownship.Traces;
 end
 
-% plot3(futureTraj(:,:,1),futureTraj(:,:,2),futureTraj(:,:,3) )
-% 
-% center_point = mean(futureTraj(end,:,3));
-% 
-% [minValue,closestIndex] = min(abs(futureTraj(end,:,3)-center_point))
-% closestValue = N(closestIndex) 
-% 
-% plot(futureTraj(:,:,3))
-% hold on 
-% plot(futureTraj(:,closestIndex,4),'o')
 
 oneStepStates = futureTraj(11,:,:); %eventually put an assertion block to check the size 
 % plot(squeeze(futureStates(:,1:5,2)))
