@@ -1,4 +1,30 @@
 classdef Ownship
+    %This class implements a 6-DOF guidance model of fixed wing
+    % aircraft. The model is adopted from "Beard, R. W., and McLain, T. W., 
+    % Small unmanned aircraft: Theory and practice, Princeton University Press, 2012.
+    % https://doi.org/10.1515/9781400840601
+
+    % This model is first implemented in my AIAA JGCD paper as part of
+    % my first chapter of my PhD dissertation 
+
+    % The main role of this model in this project is to desribe the
+    % behavior of the aircraft in the trajectory planning stage of the
+    % framework
+
+    % Important properties:
+    %      aircraftActions - Action set of the aircrft used to train the
+    %      MDP Agent
+    %      currentStates - 12 states of the aircraft at time t
+    %      nextStates - Projected best states of the aircraft at t+1 
+    %      traveledPath - Past [x, y, z] positions of aircraft 
+    %      bestTrajectory - Projected best [x, y, z] of the aircraft 
+
+    % Important methods:
+    %      fixedwingDynamics - a discrete model of the aircraft
+    %  
+    %      forwardSimulate - simulates the future states of the aircraft 
+    %      fixedwingActions - generates an array that contains the control set
+    %      selectBestAction - picks the best action and state for t+1 
     properties %Uppercase -- TODO
 
         % general Aircraft properties
@@ -213,15 +239,7 @@ classdef Ownship
         end
 
         function obj = forwardSimulate(obj, controlActions,timeStep, numSteps)
-%             vectorizedStates = obj.currentStates.*ones(length(controlActions),1);
-% 
-%             [t1, traces] = ode45(@(t,y) Ownship.fixedWingDynamics(t,y,controlActions),0:0.01:10,vectorizedStates);
-%             traces = permute(reshape(traces, length(t1), length(controlActions), length(obj.currentStates)), [1, 2, 3]);
-% 
-%             time_index = floor(linspace(1,length(t1),100));
-%             action_index = floor(linspace(1,length(controlActions),110));
-            obj.Traces = Ownship.fixedWingDynamics(obj, controlActions,timeStep, numSteps);%(time_index,action_index,:);
-
+            obj.Traces = Ownship.fixedWingDynamics(obj, controlActions,timeStep, numSteps);
         end
 
         function obj = computeReachTube(obj, DryVR_obj)
