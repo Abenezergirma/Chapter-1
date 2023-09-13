@@ -22,6 +22,20 @@ This repository contains the code and results from the first chapter of my disse
 # Illustrations
 
 # Images
+<table>
+  <tr>
+    <td><img src="img/state_x.png" alt="Image 1"></td>
+    <td><img src="img/state_x.png" alt="Image 2"></td>
+  </tr>
+  <tr>
+    <td><img src="img/image3.jpg" alt="Image 3"></td>
+    <td><img src="img/image4.jpg" alt="Image 4"></td>
+  </tr>
+  <tr>
+    <td><img src="img/image5.jpg" alt="Image 5"></td>
+    <td><img src="img/image6.jpg" alt="Image 6"></td>
+  </tr>
+</table>
 
 ![Image 1](img/state_x.png) ![Image 2](img/state_x.png)
 
