@@ -37,7 +37,7 @@ This repository contains the code and results from the first chapter of my disse
   </tr>
 </table>
 
-[Snopshot of the simulation environment](img/frame_116.png)
+![Snopshot of the simulation environment](img/frame_116.png)
 
 # Videos
 
