@@ -38,7 +38,7 @@ This repository contains the code and results from the first chapter of my disse
 
 # Videos
 
-- [Video 1](img/video1.avi)
+- [Video 1](img/state_x.png)
 - [Video 2](img/video2.avi)
 - [Video 3](img/video3.avi)
 ... (add as many videos as you have)
