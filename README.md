@@ -23,8 +23,8 @@ This repository contains the code and results from the first chapter of my disse
 
 <table>
   <tr>
-    <td><img src="img/state_x.eps" alt="Image 1"></td>
-    <td><img src="img/state_y.eps" alt="Image 2"></td>
+    <td><img src="img/state_x.png" alt="Image 1"></td>
+    <td><img src="img/state_y.png" alt="Image 2"></td>
   </tr>
   <tr>
     <td><img src="img/image3.jpg" alt="Image 3"></td>
