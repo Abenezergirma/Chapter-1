@@ -22,12 +22,21 @@ This repository contains the code and results from the first chapter of my disse
 # Illustrations
 
 # Images
+<table>
+  <tr>
+    <td><img src="img/state_x.png" alt="Image 1"></td>
+    <td><img src="img/xy_proj.png" alt="Image 2"></td>
+  </tr>
+  <tr>
+    <td><img src="img/state_y.png" alt="Image 3"></td>
+    <td><img src="img/xz_proj.png" alt="Image 4"></td>
+  </tr>
+  <tr>
+    <td><img src="img/state_z.png" alt="Image 5"></td>
+    <td><img src="img/yz_proj.png" alt="Image 6"></td>
+  </tr>
+</table>
 
-![Image 1](img/state_x.png) ![Image 2](img/state_x.png)
-
-![Image 3](img/image3.jpg) ![Image 4](img/image4.jpg)
-
-![Image 5](img/image5.jpg) ![Image 6](img/image6.jpg)
 
 # Videos
 
