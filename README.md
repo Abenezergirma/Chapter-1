@@ -40,10 +40,10 @@ This repository contains the code and results from the first chapter of my disse
 
 # Videos
 
-- [Video 1](img/8%agents.mp4)
-- [Video 2](img/video2.avi)
-- [Video 3](img/video3.avi)
-... (add as many videos as you have)
+- [Video 1](https://youtu.be/7JmT2nph9Ws)
+- [Video 2](https://youtu.be/vlUZZLl_uGY)
+- [Video 3](https://youtu.be/C8PxhUiaKJE)
+
 
 
 
