@@ -21,20 +21,13 @@ This repository contains the code and results from the first chapter of my disse
 
 # Illustrations
 
-<table>
-  <tr>
-    <td><img src="img/state_x.eps" alt="Image 1"></td>
-    <td><img src="img/state_y.eps" alt="Image 2"></td>
-  </tr>
-  <tr>
-    <td><img src="img/image3.jpg" alt="Image 3"></td>
-    <td><img src="img/image4.jpg" alt="Image 4"></td>
-  </tr>
-  <tr>
-    <td><img src="img/image5.jpg" alt="Image 5"></td>
-    <td><img src="img/image6.jpg" alt="Image 6"></td>
-  </tr>
-</table>
+# Images
+
+![Image 1](img/state_x.png) ![Image 2](img/state_x.png)
+
+![Image 3](img/image3.jpg) ![Image 4](img/image4.jpg)
+
+![Image 5](img/image5.jpg) ![Image 6](img/image6.jpg)
 
 # Videos
 
@@ -42,6 +35,7 @@ This repository contains the code and results from the first chapter of my disse
 - [Video 2](img/video2.avi)
 - [Video 3](img/video3.avi)
 ... (add as many videos as you have)
+
 
 
 
