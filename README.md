@@ -29,11 +29,11 @@ This repository contains the code and results from the first chapter of my disse
   </tr>
   <tr>
     <td><img src="img/state_y.png" alt="Image 3"></td>
-    <td><img src="img/xz_proj.jpg" alt="Image 4"></td>
+    <td><img src="img/xz_proj.png" alt="Image 4"></td>
   </tr>
   <tr>
     <td><img src="img/state_z.png" alt="Image 5"></td>
-    <td><img src="img/yz_proj.jpg" alt="Image 6"></td>
+    <td><img src="img/yz_proj.png" alt="Image 6"></td>
   </tr>
 </table>
 
