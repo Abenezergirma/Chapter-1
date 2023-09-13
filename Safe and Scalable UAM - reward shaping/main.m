@@ -1,104 +1,94 @@
-function [totalNMACs,stepTimer] = main()
+function [allNMAC, Mean, Median, Std, Throughput] = main()
+
+% Initialization
 clear; close all; clc;
-addContainingDirAndSubDir;
-parameters;
+addContainingDirAndSubDir();
+parameters();
+
+% Set parameters
+totalAgents = 32;
 teamActions = fixedWing_Actions;
 teamLimits = buildLimits;
 scenarioSelector = struct('circle','circle', 'random','random');
-% instantiating the ownship class for each aircraft in the game
-totalAgents = 2;
-droneList = cell(1,totalAgents);
 initialStates = scenarioGenerator(totalAgents,'circle');
-% goals = [10000, 16000, 700];
+goals = circshift(initialStates, totalAgents/2);
+DryVR_obj = DryVR(0.1, 500);
 totalNMACs = 0;
 
-goals = circshift(initialStates,totalAgents/2);
+% Instantiate drone list
+droneList = instantiateDrones(totalAgents, goals, initialStates);
 
-DryVR_obj = DryVR(0.1,500);
-
-for i = 1: totalAgents
-    aircraftID = i;
-    aircraftTeam = 1; %only one team
-    goal = goals(i,1:3);
-    baseLatitude = 10;
-    baseAltitude = 10;
-    droneInitialStates = initialStates(i,:);
-    drone = Ownship(aircraftID, aircraftTeam, baseLatitude, baseAltitude, goal);
-    drone = updateAircraftStates(drone,  droneInitialStates);
-    droneList{i} =  drone;
-end
-%%
-numLeft = size(droneList,2);
+%% Main loop
+numLeft = size(droneList, 2);
 stepTimer = [];
 j = 0;
+
 while numLeft > 0
-    tic
+    tic;
     for k = 1:numel(droneList)
-        % The following is the entire operation for aircraft k at step j
         ownship = droneList{k};
-
-        %check if the aircraft is still in the game
         if ownship.dead
-            continue
+            continue;
         end
-
-        %build both positive and negative reward sources
-        [positivePeaks, negativePeaks,droneList] = buildPeaks(ownship, droneList,teamActions, DryVR_obj);
-
-        ownship = droneList{k};
-
-        %Forward project all the posible states of the aircraft for the next 10 secs
-        [futureStates, oneStepStates, futureActions] = neighboringStates(ownship, teamActions, teamLimits);
-
-        % compute the value for each future state
-        totalValues = valueFunction(ownship, futureStates, positivePeaks, negativePeaks);
-           
         
-        %select the optimal action
-        ownship = selectBestAction(ownship, totalValues, futureActions, futureStates, oneStepStates);
-
-        % update the aircraft state based the selected action
-        ownship = updateAircraftStates(ownship,  ownship.nextStates);
+        [positivePeaks, negativePeaks, droneList] = buildPeaks(ownship, droneList, teamActions, DryVR_obj);
+        ownship = projectAndUpdate(ownship, teamActions, teamLimits, positivePeaks, negativePeaks);
         
-        ownship.Traces = 0;
-        
-        % check if the ownship makes it to goal
+        % Check goal condition
         if norm(ownship.currentStates(1:3) - ownship.goal) < 30
             ownship.dead = true;
-            disp('ownship ' + string(ownship.aircraftID) + ' made it to goal, removed') 
-            numLeft = numLeft -1;
+            disp(['ownship ', num2str(ownship.aircraftID), ' made it to goal, removed']);
+            numLeft = numLeft - 1;
         end
-
         droneList{k} = ownship;
-
     end
 
-    % monitor the status of the game
+    % Monitor the game status
     [terminal, NMACs, droneList] = terminalDetection(droneList);
     totalNMACs = totalNMACs + NMACs;
-    stepTimer = [stepTimer,toc];
-    j = j +1;
+    stepTimer = [stepTimer, toc];
+    j = j + 1;
+    displayGameStatus(j, toc, totalNMACs, numLeft);
 
-    disp('step '+string(j) + ', computation time is ' + string(toc) + ' sec')
-    fprintf('NMACs so far, ' + string(totalNMACs) +'\n')
-    fprintf('Num aircraft left, ' + string(numLeft) +'\n')
-
-    if terminal==true
-        return
+    if terminal
+        return;
     end
 end
 
-% %%
-allNMAC = totalNMACs
-Mean = mean(stepTimer)
-Median = median(stepTimer)
-Std = std(stepTimer)
-Throughput = sum(stepTimer)
+% Display results
+allNMAC = totalNMACs;
+Mean = mean(stepTimer);
+Median = median(stepTimer);
+Std = std(stepTimer);
+Throughput = sum(stepTimer);
 
-% save('MDP_16_simulate')
+save('droneList8.mat', 'droneList');
+save('simulate8');
+
 end
-% for i = 1:32
-% plot(droneList{i}.bestVal)
-% hold on
-% end
 
+function droneList = instantiateDrones(totalAgents, goals, initialStates)
+    droneList = cell(1, totalAgents);
+    baseLatitude = 10;
+    baseAltitude = 10;
+
+    for i = 1: totalAgents
+        drone = Ownship(i, 1, baseLatitude, baseAltitude, goals(i, 1:3));
+        drone = updateAircraftStates(drone, initialStates(i, :));
+        droneList{i} = drone;
+    end
+end
+
+function ownship = projectAndUpdate(ownship, teamActions, teamLimits, positivePeaks, negativePeaks)
+    [futureStates, oneStepStates, futureActions] = neighboringStates(ownship, teamActions, teamLimits);
+    totalValues = valueFunction(ownship, futureStates, positivePeaks, negativePeaks);
+    ownship = selectBestAction(ownship, totalValues, futureActions, futureStates, oneStepStates);
+    ownship = updateAircraftStates(ownship, ownship.nextStates);
+    ownship.Traces = 0;
+end
+
+function displayGameStatus(step, computationTime, NMACs, numLeft)
+    disp(['step ', num2str(step), ', computation time is ', num2str(computationTime), ' sec']);
+    fprintf('NMACs so far, %d\n', NMACs);
+    fprintf('Num aircraft left, %d\n', numLeft);
+end
