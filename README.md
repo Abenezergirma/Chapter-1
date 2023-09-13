@@ -1,5 +1,25 @@
 # Chapter-1
 
+## Overview of the Repository:
+
+This repository contains the code and results from the first chapter of my dissertation on **Urban Air Mobility (UAM)** trajectory planning. The goal is to provide a real-time planning framework that's both safe and scalable.
+
+### Key Features:
+
+1. **Decentralized Free-Flight Concept**: 
+   - Every aircraft independently handles conflict resolution and ensures safety by considering the predicted positions of nearby planes.
+   
+2. **Two-Part Framework**:
+   - **Reachability Analysis Tool**: Predicts potential aircraft movements using data from simulated trajectories.
+   - **Decision Maker**: Uses a 6-degree freedom model for fixed-wing aircraft to plan collision-free paths.
+
+3. **Safety Enhancements**: 
+   - Incorporates techniques like reward shaping and action shielding to boost safety.
+   
+4. **Performance Testing**: 
+   - Simulated tests with up to 32 aircraft showed the effectiveness of this framework, gauged by reduced Near Mid Air Collisions (NMAC) and computational efficiency.
+
+
 
 ### Code Overview:
 
