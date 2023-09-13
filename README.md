@@ -19,6 +19,30 @@ This repository contains the code and results from the first chapter of my disse
 4. **Performance Testing**: 
    - Simulated tests with up to 32 aircraft showed the effectiveness of this framework, gauged by reduced Near Mid Air Collisions (NMAC) and computational efficiency.
 
+# Illustrations
+
+<table>
+  <tr>
+    <td><img src="img/state_x.eps" alt="Image 1"></td>
+    <td><img src="img/state_y.eps" alt="Image 2"></td>
+  </tr>
+  <tr>
+    <td><img src="img/image3.jpg" alt="Image 3"></td>
+    <td><img src="img/image4.jpg" alt="Image 4"></td>
+  </tr>
+  <tr>
+    <td><img src="img/image5.jpg" alt="Image 5"></td>
+    <td><img src="img/image6.jpg" alt="Image 6"></td>
+  </tr>
+</table>
+
+# Videos
+
+- [Video 1](img/video1.avi)
+- [Video 2](img/video2.avi)
+- [Video 3](img/video3.avi)
+... (add as many videos as you have)
+
 
 
 ### Code Overview:
