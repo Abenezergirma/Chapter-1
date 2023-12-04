@@ -51,7 +51,7 @@ while numLeft > 0
     displayGameStatus(j, toc, totalNMACs, numLeft);
 
     if terminal
-        return;
+        break;
     end
 end
 
@@ -62,8 +62,8 @@ Median = median(stepTimer);
 Std = std(stepTimer);
 Throughput = sum(stepTimer);
 
-save('droneList8.mat', 'droneList');
-save('simulate8');
+save('droneList32.mat', 'droneList');
+save('simulate32');
 
 end
 
