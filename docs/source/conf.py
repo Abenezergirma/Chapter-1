@@ -8,7 +8,7 @@
 import os 
 import sphinx_rtd_theme
 
-project = 'Trajectory Planner'
+project = 'UAM Trajectory Planner'
 copyright = '2023, Abenezer Taye'
 author = 'Abenezer Taye'
 
