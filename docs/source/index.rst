@@ -29,7 +29,7 @@ The goal of this project is to develop a real-time planning framework that's bot
 .. image:: images/planning_framework.png
    :alt: alternate text
    :align: center
-   :width: 70%
+   :width: 100%
 
 
 Contents
@@ -45,7 +45,7 @@ Check out the following sections for further infromation about the project, incl
    results
    usage
 
-For the full implementation of this project, please visit our `GitHub repository <https://github.com/Abenezergirma/Chapter-2>`_.
+For the full implementation of this project, please visit our `GitHub repository <https://github.com/Abenezergirma/Chapter-1>`_.
 
 .. note::
 
